@@ -1,5 +1,5 @@
 import streamlit_antd_components as sac
-from langflow.load import run_flow_from_json
+# from langflow.load import run_flow_from_json
 import streamlit as st
 import streamlit.components.v1 as components
 import base64
@@ -11,16 +11,8 @@ import os
 from PIL import Image
 from io import BytesIO
 import json
-import os
-from dotenv import load_dotenv
-
-# Load .env file
-#load_dotenv()
-
-# Access api_key
-#api_key = os.getenv("api_key")
-api_key = st.secrets["openai"]["api_key"]
 # ------------------------------------------- Record Voice Notes ----------------------------------------------------------
+
 
 # ----------------------------------------------- autoplay audio -----------------------------------------------------------
 
@@ -65,9 +57,8 @@ def generate_speech(input_text):
 
 # ---------------------------------------------------------------------------------------------------------------------------
 
-
 vopenai = OP(
-    api_key= api_key
+    api_key = st.secrets["openai"]["api_key"]
 )
 
 
@@ -120,12 +111,12 @@ def chatBottt(prompt):
     "GroqModel-PEURW": {}
     }
 
-    result = run_flow_from_json(flow="Memory_Chatbot.json",
-                                input_value=prompt,
-                                fallback_to_env_vars=True, # False by default
-                                tweaks=TWEAKS)
+    # result = run_flow_from_json(flow="Memory_Chatbot.json",
+    #                             input_value=prompt,
+    #                             fallback_to_env_vars=True, # False by default
+    #                             tweaks=TWEAKS)
     
-    output = result[0].outputs[0].results['message'].text
+    output = "result[0].outputs[0].results['message'].text"
     return output
 
     
@@ -196,22 +187,22 @@ def response_generator(agent, prompt):
 
 def RAG_ChatBot(prompt):
     TWEAKS = {
-    "ParseData-XhkUG": {},
-    "Prompt-bd0HK": {},
-    "ChatOutput-A46us": {},
-    "AIMLAPIModel-tsWmW": {},
-    "Pinecone-zqmTC": {},
-    "ChatInput-a8STv": {},
-    "AIMLAPIEmbeddings-iAzCX": {}
+    "ParseData-H8Szu": {},
+    "Prompt-yVMuh": {},
+    "ChatOutput-4pKli": {},
+    "OpenAIModel-OsDGo": {},
+    "Pinecone-nQqRQ": {},
+    "ChatInput-qLlGf": {},
+    "AIMLAPIEmbeddings-FPbQh": {}
     }
 
-    result = run_flow_from_json(flow="AIML_API_RAG_LANGFLOW.json",
-                                input_value="message",
-                                fallback_to_env_vars=True, # False by default
-                                tweaks=TWEAKS)
+    # result = run_flow_from_json(flow="AIML_API_RAG_LANGFLOW.json",
+    #                             input_value=prompt,
+    #                             fallback_to_env_vars=True, # False by default
+    #                             tweaks=TWEAKS)
 
 
-    message_text = result[0].outputs[0].results['message'].text
+    message_text = "result[0].outputs[0].results['message'].text"
     print(message_text)
     for word in message_text.split():
         yield word + " "

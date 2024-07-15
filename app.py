@@ -6,7 +6,7 @@ import base64
 import time
 import requests
 import pandas as pd
-from openai import OpenAI as OP
+# from openai import OpenAI as OP
 import os
 from PIL import Image
 from io import BytesIO
@@ -58,7 +58,7 @@ def generate_speech(input_text):
 # ---------------------------------------------------------------------------------------------------------------------------
 
 vopenai = OP(
-    api_key = st.secrets["openai"]["api_key"]
+    api_key = ""
 )
 
 

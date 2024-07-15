@@ -57,18 +57,19 @@ def generate_speech(input_text):
 
 # ---------------------------------------------------------------------------------------------------------------------------
 
-vopenai = OP(
-    api_key = ""
-)
+# vopenai = OP(
+#     api_key = ""
+# )
 
 
 def generateTextFromVoice(path):
-    audio_file= open(path, "rb")
-    transcription = vopenai.audio.transcriptions.create(
-    model="whisper-1", 
-    file=audio_file
-    )
-    return transcription.text
+    # audio_file= open(path, "rb")
+    # transcription = vopenai.audio.transcriptions.create(
+    # model="whisper-1", 
+    # file=audio_file
+    # )
+    text="hello"
+    return text
 
 
 def home_page():

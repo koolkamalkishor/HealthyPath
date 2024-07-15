@@ -1,7 +1,6 @@
 imgurpython
 pandas
-openai
+openai=1.2.0
 pillow
 streamlit
 streamlit_antd_components
-langflow

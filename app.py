@@ -7,13 +7,18 @@ import time
 import requests
 import pandas as pd
 # from openai import OpenAI as OP
+from groq import Groq
 import os
 from PIL import Image
 from io import BytesIO
 import json
+import io
+import sys
 # ------------------------------------------- Record Voice Notes ----------------------------------------------------------
 
-
+client = Groq(
+            api_key=st.secrets["groq_api"]
+)
 # ----------------------------------------------- autoplay audio -----------------------------------------------------------
 
 def autoplay_audio(file_path: str):
@@ -57,19 +62,16 @@ def generate_speech(input_text):
 
 # ---------------------------------------------------------------------------------------------------------------------------
 
-# vopenai = OP(
-#     api_key = ""
-# )
+
 
 
 def generateTextFromVoice(path):
-    # audio_file= open(path, "rb")
-    # transcription = vopenai.audio.transcriptions.create(
-    # model="whisper-1", 
-    # file=audio_file
-    # )
-    text="hello"
-    return text
+    audio_file= open(path, "rb")
+    transcription = client.audio.transcriptions.create(
+    model="whisper-large-v3", 
+    file=audio_file
+    )
+    return transcription.text
 
 
 def home_page():
@@ -105,19 +107,36 @@ def home_page():
     
     
 def chatBottt(prompt):
-    TWEAKS = {
-    "Prompt-2RAUm": {},
-    "ChatInput-zfFG2": {},
-    "ChatOutput-GhWIQ": {},
-    "GroqModel-PEURW": {}
-    }
+    completion = client.chat.completions.create(
+        model="llama3-8b-8192",
+        messages=[
+            {
+                "role": "user",
+                "content": prompt
+            }
+        ],
+        temperature=1,
+        max_tokens=1024,
+        top_p=1,
+        stream=True,
+        stop=None,
+    )
 
-    # result = run_flow_from_json(flow="Memory_Chatbot.json",
-    #                             input_value=prompt,
-    #                             fallback_to_env_vars=True, # False by default
-    #                             tweaks=TWEAKS)
-    
-    output = "result[0].outputs[0].results['message'].text"
+    # Create a StringIO object to capture the output
+    captured_output = io.StringIO()
+
+    # Redirect stdout to the StringIO object
+    sys.stdout = captured_output
+
+    # Simulate the loop with print statements
+    for chunk in completion:
+        print(chunk.choices[0].delta.content or "", end="")
+
+    # Reset stdout to its original state
+    sys.stdout = sys.__stdout__
+
+    # Get the captured output as a string
+    output = captured_output.getvalue()
     return output
 
     
